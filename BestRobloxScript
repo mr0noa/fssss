@@ -1,0 +1,545 @@
+local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()
+local Window = Library.CreateLib("Roblox Script By Noa", "GrapeTheme")
+
+--Main
+local Player = Window:NewTab("Player")
+local PlayerSection = Player:NewSection("**Player Tab**")
+
+PlayerSection:NewButton("Unlimited Jump", "Jump binahayat+poshtak zadan XD", function()
+    wait(1)
+
+--[[ Info ]]--
+
+local ver = "2.00"
+local scriptname = "feFlip"
+
+
+--[[ Keybinds ]]--
+
+local FrontflipKey = Enum.KeyCode.Z
+local BackflipKey = Enum.KeyCode.X
+local AirjumpKey = Enum.KeyCode.Space
+
+
+--[[ Dependencies ]]--
+
+local ca = game:GetService("ContextActionService")
+local zeezy = game:GetService("Players").LocalPlayer
+local h = 0.0174533
+local antigrav
+
+
+--[[ Functions ]]--
+
+function zeezyFrontflip(act,inp,obj)
+	if inp == Enum.UserInputState.Begin then
+		zeezy.Character.Humanoid:ChangeState("Jumping")
+		wait()
+		zeezy.Character.Humanoid.Sit = true
+		for i = 1,360 do 
+			delay(i/720,function()
+			zeezy.Character.Humanoid.Sit = true
+				zeezy.Character.HumanoidRootPart.CFrame = zeezy.Character.HumanoidRootPart.CFrame * CFrame.Angles(-h,0,0)
+			end)
+		end
+		wait(0.55)
+		zeezy.Character.Humanoid.Sit = false
+	end
+end
+
+function zeezyBackflip(act,inp,obj)
+	if inp == Enum.UserInputState.Begin then
+		zeezy.Character.Humanoid:ChangeState("Jumping")
+		wait()
+		zeezy.Character.Humanoid.Sit = true
+		for i = 1,360 do
+			delay(i/720,function()
+			zeezy.Character.Humanoid.Sit = true
+				zeezy.Character.HumanoidRootPart.CFrame = zeezy.Character.HumanoidRootPart.CFrame * CFrame.Angles(h,0,0)
+			end)
+		end
+		wait(0.55)
+		zeezy.Character.Humanoid.Sit = false
+	end
+end
+
+function zeezyAirjump(act,inp,obj)
+	if inp == Enum.UserInputState.Begin then
+		zeezy.Character:FindFirstChildOfClass'Humanoid':ChangeState("Seated")
+		wait()
+		zeezy.Character:FindFirstChildOfClass'Humanoid':ChangeState("Jumping")	
+	end
+end
+
+
+--[[ Binds ]]--
+
+ca:BindAction("zeezyFrontflip",zeezyFrontflip,false,FrontflipKey)
+ca:BindAction("zeezyBackflip",zeezyBackflip,false,BackflipKey)
+ca:BindAction("zeezyAirjump",zeezyAirjump,false,AirjumpKey)
+
+--[[ Load Message ]]--
+
+print(scriptname .. " " .. ver .. " loaded successfully")
+print("made by Noa")
+
+local notifSound = Instance.new("Sound",workspace)
+notifSound.PlaybackSpeed = 1.5
+notifSound.Volume = 0.15
+notifSound.SoundId = "rbxassetid://170765130"
+notifSound.PlayOnRemove = true
+notifSound:Destroy()
+end)
+
+PlayerSection:NewToggle("Fly", "Fly in map :/", function(state)
+    if state then
+        function Fly(bool) local localplayer = game.Players.LocalPlayer local mouse = localplayer:GetMouse() if workspace:FindFirstChild("Core") then workspace.Core:Destroy() end local Core = Instance.new("Part") Core.Name = "Core" Core.Size = Vector3.new(0.05, 0.05, 0.05) spawn(function() Core.Parent = workspace local Weld = Instance.new("Weld", Core) Weld.Part0 = Core Weld.Part1 = localplayer.Character.LowerTorso Weld.C0 = CFrame.new(0, 0, 0) end) workspace:WaitForChild("Core") local torso = workspace.Core flying = true local speed=10 local keys={a=false,d=false,w=false,s=false} local e1 local e2 local function start() local pos = Instance.new("BodyPosition",torso) local gyro = Instance.new("BodyGyro",torso) pos.Name="EPIXPOS" pos.maxForce = Vector3.new(math.huge, math.huge, math.huge) pos.position = torso.Position gyro.maxTorque = Vector3.new(9e9, 9e9, 9e9) gyro.cframe = torso.CFrame repeat wait() localplayer.Character.Humanoid.PlatformStand=true local new=gyro.cframe - gyro.cframe.p + pos.position if not keys.w and not keys.s and not keys.a and not keys.d then speed=5 end if keys.w then new = new + workspace.CurrentCamera.CoordinateFrame.lookVector * speed speed=speed+0 end if keys.s then new = new - workspace.CurrentCamera.CoordinateFrame.lookVector * speed speed=speed+0 end if keys.d then new = new * CFrame.new(speed,0,0) speed=speed+0 end if keys.a then new = new * CFrame.new(-speed,0,0) speed=speed+0 end if speed>10 then speed=5 end pos.position=new.p if keys.w then gyro.cframe = workspace.CurrentCamera.CoordinateFrame*CFrame.Angles(-math.rad(speed*0),0,0) elseif keys.s then gyro.cframe = workspace.CurrentCamera.CoordinateFrame*CFrame.Angles(math.rad(speed*0),0,0) else gyro.cframe = workspace.CurrentCamera.CoordinateFrame end until flying == false if gyro then gyro:Destroy() end if pos then pos:Destroy() end flying=false localplayer.Character.Humanoid.PlatformStand=false speed=10 end e1=mouse.KeyDown:connect(function(key) if not torso or not torso.Parent then flying=false e1:disconnect() e2:disconnect() return end if key=="w" then keys.w=true elseif key=="s" then keys.s=true elseif key=="a" then keys.a=true elseif key=="d" then keys.d=true elseif key=="x" then if flying==true then flying=false else flying=true start() end end end) e2=mouse.KeyUp:connect(function(key) if key=="w" then keys.w=false elseif key=="s" then keys.s=false elseif key=="a" then keys.a=false elseif key=="d" then keys.d=false end end) local function stop() end if bool == true then start() else stop() end end
+
+		Fly(true)
+    else
+        function Fly(bool) local localplayer = game.Players.LocalPlayer local mouse = localplayer:GetMouse() if workspace:FindFirstChild("Core") then workspace.Core:Destroy() end local Core = Instance.new("Part") Core.Name = "Core" Core.Size = Vector3.new(0.05, 0.05, 0.05) spawn(function() Core.Parent = workspace local Weld = Instance.new("Weld", Core) Weld.Part0 = Core Weld.Part1 = localplayer.Character.LowerTorso Weld.C0 = CFrame.new(0, 0, 0) end) workspace:WaitForChild("Core") local torso = workspace.Core flying = true local speed=10 local keys={a=false,d=false,w=false,s=false} local e1 local e2 local function start() local pos = Instance.new("BodyPosition",torso) local gyro = Instance.new("BodyGyro",torso) pos.Name="EPIXPOS" pos.maxForce = Vector3.new(math.huge, math.huge, math.huge) pos.position = torso.Position gyro.maxTorque = Vector3.new(9e9, 9e9, 9e9) gyro.cframe = torso.CFrame repeat wait() localplayer.Character.Humanoid.PlatformStand=true local new=gyro.cframe - gyro.cframe.p + pos.position if not keys.w and not keys.s and not keys.a and not keys.d then speed=5 end if keys.w then new = new + workspace.CurrentCamera.CoordinateFrame.lookVector * speed speed=speed+0 end if keys.s then new = new - workspace.CurrentCamera.CoordinateFrame.lookVector * speed speed=speed+0 end if keys.d then new = new * CFrame.new(speed,0,0) speed=speed+0 end if keys.a then new = new * CFrame.new(-speed,0,0) speed=speed+0 end if speed>10 then speed=5 end pos.position=new.p if keys.w then gyro.cframe = workspace.CurrentCamera.CoordinateFrame*CFrame.Angles(-math.rad(speed*0),0,0) elseif keys.s then gyro.cframe = workspace.CurrentCamera.CoordinateFrame*CFrame.Angles(math.rad(speed*0),0,0) else gyro.cframe = workspace.CurrentCamera.CoordinateFrame end until flying == false if gyro then gyro:Destroy() end if pos then pos:Destroy() end flying=false localplayer.Character.Humanoid.PlatformStand=false speed=10 end e1=mouse.KeyDown:connect(function(key) if not torso or not torso.Parent then flying=false e1:disconnect() e2:disconnect() return end if key=="w" then keys.w=true elseif key=="s" then keys.s=true elseif key=="a" then keys.a=true elseif key=="d" then keys.d=true elseif key=="x" then if flying==true then flying=false else flying=true start() end end end) e2=mouse.KeyUp:connect(function(key) if key=="w" then keys.w=false elseif key=="s" then keys.s=false elseif key=="a" then keys.a=false elseif key=="d" then keys.d=false end end) local function stop() end if bool == true then start() else stop() end end
+
+		Fly(false)
+    end
+end)
+
+PlayerSection:NewButton("NoClip", "rad shodan az dar va divar :/", function()
+local notifSound = Instance.new("Sound",workspace)
+notifSound.PlaybackSpeed = 1.5
+notifSound.Volume = 0.15
+notifSound.SoundId = "rbxassetid://170765130"
+notifSound.PlayOnRemove = true
+notifSound:Destroy()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/mr0noa/Nclip/main/NoClip"))()
+end)
+
+PlayerSection:NewButton("Teleport", "Teleport dar map:)", function()
+local notifSound = Instance.new("Sound",workspace)
+notifSound.PlaybackSpeed = 1.5
+notifSound.Volume = 0.15
+notifSound.SoundId = "rbxassetid://170765130"
+notifSound.PlayOnRemove = true
+notifSound:Destroy()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/mr0noa/telp/main/Telport"))()
+end)
+
+PlayerSection:NewToggle("Super Man Mode", "go fast and jump high", function(state)
+    if state then
+        game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 120
+        game.Players.LocalPlayer.Character.Humanoid.JumpPower = 120
+    else
+        game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 16
+        game.Players.LocalPlayer.Character.Humanoid.JumpPower = 50
+    end
+	local notifSound = Instance.new("Sound",workspace)
+notifSound.PlaybackSpeed = 1.5
+notifSound.Volume = 0.15
+notifSound.SoundId = "rbxassetid://170765130"
+notifSound.PlayOnRemove = true
+notifSound:Destroy()
+end)
+
+PlayerSection:NewSlider("Walkspeed", "SPEED!!", 500, 16, function(s)
+    game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = s
+end)
+
+PlayerSection:NewSlider("Jumppower", "JUMP HIGH!!", 350, 50, function(s)
+    game.Players.LocalPlayer.Character.Humanoid.JumpPower = s
+end)
+
+PlayerSection:NewButton("Reset Speeds", "Resets to all defaults", function()
+    game.Players.LocalPlayer.Character.Humanoid.JumpPower = 50
+    game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 16
+end)
+
+
+--LOCAL MISC
+local MISC = Window:NewTab("Misc")
+local MISCSection = MISC:NewSection("Appearance Misc")
+
+MISCSection:NewButton("Admin Permission", "mesl admin commend bezanid va lezat bbarid :)", function()
+local notifSound = Instance.new("Sound",workspace)
+notifSound.PlaybackSpeed = 1.5
+notifSound.Volume = 0.15
+notifSound.SoundId = "rbxassetid://170765130"
+notifSound.PlayOnRemove = true
+notifSound:Destroy()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/mr0noa/admin/main/adminper"))()
+end)
+
+MISCSection:NewButton("Chat Spoofer", "payam ferestadan ba nam digaran", function()
+local notifSound = Instance.new("Sound",workspace)
+notifSound.PlaybackSpeed = 1.5
+notifSound.Volume = 0.15
+notifSound.SoundId = "rbxassetid://170765130"
+notifSound.PlayOnRemove = true
+notifSound:Destroy()
+    loadstring(game:HttpGet(('https://raw.githubusercontent.com/mr0noa/cht/main/spoff'),true))()
+end)
+
+MISCSection:NewButton("Chat Spoofer #2", "spam va sheklak", function()
+local notifSound = Instance.new("Sound",workspace)
+notifSound.PlaybackSpeed = 1.5
+notifSound.Volume = 0.15
+notifSound.SoundId = "rbxassetid://170765130"
+notifSound.PlayOnRemove = true
+notifSound:Destroy()
+    loadstring(game:HttpGet(('https://the-shed.xyz/roblox/scripts/ChatBypass'),true))()
+end)
+local MISCSection = MISC:NewSection("Other Game Cheats")
+
+MISCSection:NewButton("Vehicle Legend", "godxnation", function()
+local notifSound = Instance.new("Sound",workspace)
+notifSound.PlaybackSpeed = 1.5
+notifSound.Volume = 0.15
+notifSound.SoundId = "rbxassetid://170765130"
+notifSound.PlayOnRemove = true
+notifSound:Destroy()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/GodXNation/GodXNation/main/midnight%20racing%20hubV2%20fixed"))()
+end)
+
+MISCSection:NewButton("Fortnite Arab", ":/", function()
+    local notifSound = Instance.new("Sound",workspace)
+    notifSound.PlaybackSpeed = 1.5
+    notifSound.Volume = 0.15
+    notifSound.SoundId = "rbxassetid://170765130"
+    notifSound.PlayOnRemove = true
+    notifSound:Destroy()
+    local weaponSystem = require(game:service'ReplicatedStorage'.WeaponsSystem.Libraries.BaseWeapon)
+    local Material = loadstring(game:HttpGet("https://raw.githubusercontent.com/Kinlei/MaterialLua/master/Module.lua"))()
+    
+    local client = game:GetService('Players').LocalPlayer;
+    
+    local oldFire = weaponSystem.fire;
+    local oldGetConfigValue = weaponSystem.getConfigValue
+    local oldUseAmmo = weaponSystem.useAmmo;
+    local oldGetAmmo = weaponSystem.getAmmoInWeapon
+    
+    local function getClosestPlayer()
+        local final = nil
+        local maxRange = math.huge;
+    
+        for i, player in next, game:GetService('Players'):GetPlayers() do
+            if player == client then continue end
+            if (not player.Character) then continue end
+    
+            local humanoid = player.Character:FindFirstChild('Humanoid');
+            local head = player.Character:FindFirstChild('Head');
+    
+            if (not head) or (not humanoid) then continue end
+            if (humanoid.Health <= 0) then continue end
+    
+            local vector, visible = workspace.CurrentCamera:WorldToViewportPoint(head.Position);
+            if (not visible) then continue end
+    
+            local cursorPosition = game:GetService('UserInputService'):GetMouseLocation();
+            local screenPosition = Vector2.new(vector.X, vector.Y);
+    
+            local difference = math.floor((screenPosition - cursorPosition).magnitude);
+            if (difference < maxRange) then
+                maxRange = difference
+                final = head;
+            end
+        end
+        return final;
+    end
+    
+    function weaponSystem.getAmmoInWeapon(self, ...)
+        local arguments = {...}
+        if _G.infiniteAmmo then return 9e9 end
+        return oldGetAmmo(self, unpack(arguments))
+    end
+    
+    function weaponSystem.fire(self, ...)
+        local arguments = {...};
+    
+        if _G.silentAim then
+            local t = getClosestPlayer()
+            if t then
+                arguments[2] = (t.Position - arguments[1]).unit;
+                arguments[3] = 1;
+            end
+        end
+    
+        return oldFire(self, unpack(arguments))
+    end
+    
+    function weaponSystem.getConfigValue(self, ...)
+        local arguments = {...}
+    
+        if _G.fastFire and arguments[1] == 'ShotCooldown' then
+            return 0.01
+        elseif _G.autoGuns and arguments[1] == 'FireMode' then
+            return 'Automatic'
+        elseif _G.noRecoil and (arguments[1] == 'RecoilMin' or arguments[1] == 'RecoilMax') then
+            return 0
+        elseif _G.noSpread and (arguments[1] == 'MinSpread' or arguments[1] == 'MaxSpread') then
+            return 0
+        end
+    
+        return oldGetConfigValue(self, unpack(arguments))
+    end
+    
+    function weaponSystem.useAmmo(self, ...)
+        local arguments = {...}
+        if _G.infiniteAmmo then
+            if (self.ammoInWeaponValue) then
+                return 1;
+            end
+        end
+        return oldUseAmmo(self, unpack(arguments))
+    end
+    
+    local window = {} do
+        local windowMeta = {} 
+        windowMeta.__index = windowMeta
+    
+        function windowMeta:Tab(name)
+            local tab = self.window.New({
+                Title = name;
+            })
+    
+            return setmetatable({
+                window = self.window;
+                tab = tab;
+            }, windowMeta) 
+        end
+    
+        function windowMeta:Toggle(name, callback)
+            self.tab.Toggle({
+                Text = name;
+                Callback = callback;
+            })
+        end
+    
+        function windowMeta:Banner(name, options)
+            local _menu = {}
+    
+            for name, str in next, options do
+                _menu[name] = function() self.window.Banner({ Text = str }) end
+            end
+    
+            self.tab.Button({
+                Text = name;
+                Menu = _menu
+            })
+        end
+    
+        function window.new(name)
+            local main = Material.Load({
+                Title = name;
+                Style = 1;
+    
+                Theme = 'Jester';
+                SizeX = 300;
+                SizeY = 320;
+            })
+    
+            return setmetatable({ window = main }, windowMeta) 
+        end
+    end
+    
+    local gui = window.new('Arabic Fortnite');
+    local tab = gui:Tab('Main');
+    
+    tab:Toggle('Silent Aim', function(value) _G.silentAim = value end)
+    tab:Toggle('Infinite Ammo', function(value) _G.infiniteAmmo = value end)
+    tab:Toggle('No Recoil', function(value) _G.noRecoil = value end)
+    tab:Toggle('No Spread', function(value) _G.noSpread = value end)
+    tab:Toggle('Fast Guns', function(value) _G.fastFire = value end)
+    tab:Toggle('Automatic Guns', function(value) _G.autoGuns = value end)
+end)
+    
+
+MISCSection:NewButton("Vehicle Legend #2", "hGfghvcwvcFRSSERQqq", function()
+local notifSound = Instance.new("Sound",workspace)
+notifSound.PlaybackSpeed = 1.5
+notifSound.Volume = 0.15
+notifSound.SoundId = "rbxassetid://170765130"
+notifSound.PlayOnRemove = true
+notifSound:Destroy()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/AaronS69420/WheelHub/main/MainFile"))()
+end)
+
+MISCSection:NewButton("Bad Busines", "Aha", function()
+local notifSound = Instance.new("Sound",workspace)
+notifSound.PlaybackSpeed = 1.5
+notifSound.Volume = 0.15
+notifSound.SoundId = "rbxassetid://170765130"
+notifSound.PlayOnRemove = true
+notifSound:Destroy()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/AlexR32/Parvus/main/Loader.lua"))()
+end)
+
+MISCSection:NewButton("Mega Noob", "93YpR___ZZ", function()
+local notifSound = Instance.new("Sound",workspace)
+notifSound.PlaybackSpeed = 1.5
+notifSound.Volume = 0.15
+notifSound.SoundId = "rbxassetid://170765130"
+notifSound.PlayOnRemove = true
+notifSound:Destroy()
+    loadstring(game:HttpGet("https://thedragonslayer2.github.io"))()
+end)
+
+MISCSection:NewButton("Survive the Killer", "khhh", function()
+local notifSound = Instance.new("Sound",workspace)
+notifSound.PlaybackSpeed = 1.5
+notifSound.Volume = 0.15
+notifSound.SoundId = "rbxassetid://170765130"
+notifSound.PlayOnRemove = true
+notifSound:Destroy()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/FOXTROXHACKS/ElToro/main/Hub.lua"))()
+end)
+
+MISCSection:NewButton("Tycoon", "khhh", function()
+local notifSound = Instance.new("Sound",workspace)
+notifSound.PlaybackSpeed = 1.5
+notifSound.Volume = 0.15
+notifSound.SoundId = "rbxassetid://170765130"
+notifSound.PlayOnRemove = true
+notifSound:Destroy()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/CasperFlyModz/discord.gg-rips/main/MillionaireEmpireTycoon.lua"))()
+end)
+
+
+--LOCAL ESP
+local ESP = Window:NewTab("ESP")
+local ESPSection = ESP:NewSection("*ESP*")
+
+ESPSection:NewButton("ESP *With Team Check*", ":/", function()
+local notifSound = Instance.new("Sound",workspace)
+notifSound.PlaybackSpeed = 1.5
+notifSound.Volume = 0.15
+notifSound.SoundId = "rbxassetid://170765130"
+notifSound.PlayOnRemove = true
+notifSound:Destroy()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/mr0noa/esp/main/jfels"))()
+end)
+
+ESPSection:NewButton("ESP *Without Team Check*", ":/", function()
+local notifSound = Instance.new("Sound",workspace)
+notifSound.PlaybackSpeed = 1.5
+notifSound.Volume = 0.15
+notifSound.SoundId = "rbxassetid://170765130"
+notifSound.PlayOnRemove = true
+notifSound:Destroy()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/mr0noa/spt/main/fese"))()
+end)
+
+
+
+--LOCAL AIM
+local AIM = Window:NewTab("AIM Bot")
+local AIMSection = AIM:NewSection("*AIM Bot*")
+AIMSection:NewButton("Aim Bot", "Click rast ro negah darid:/", function()
+    local notifSound = Instance.new("Sound",workspace)
+    notifSound.PlaybackSpeed = 1.5
+    notifSound.Volume = 0.15
+    notifSound.SoundId = "rbxassetid://170765130"
+    notifSound.PlayOnRemove = true
+    notifSound:Destroy()
+        --> variables
+local UIS = game:GetService("UserInputService")
+local camera = game.Workspace.CurrentCamera
+--> getting the closest player
+function getClosest()
+local closestPlayer = nil
+local closesDist = math.huge
+for i,v in pairs(game.Players:GetPlayers()) do
+if v ~= game.Players.LocalPlayer then
+local Dist = (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - v.Character.HumanoidRootPart.Position).magnitude
+if Dist < closesDist then
+closesDist = Dist
+closestPlayer = v
+end
+end
+end
+return closestPlayer
+end
+
+--> starting the aimbot
+_G.aim = false
+UIS.InputBegan:Connect(function(inp)
+    if inp.UserInputType == Enum.UserInputType.MouseButton2 then
+    _G.aim = true
+    while wait() do
+        camera.CFrame = CFrame.new(camera.CFrame.Position,getClosest().Character.Head.Position)
+        if _G.aim == false then return end
+    end
+    end
+end)
+--> ending the aimbot
+UIS.InputEnded:Connect(function(inp)
+    if inp.UserInputType == Enum.UserInputType.MouseButton2 then
+    _G.aim = false
+    end
+end)
+end)
+
+AIMSection:NewButton("Trigger", ":/", function()
+        local notifSound = Instance.new("Sound",workspace)
+        notifSound.PlaybackSpeed = 1.5
+        notifSound.Volume = 0.15
+        notifSound.SoundId = "rbxassetid://170765130"
+        notifSound.PlayOnRemove = true
+        notifSound:Destroy()
+        local player = game:GetService("Players").LocalPlayer
+        local mouse = player:GetMouse()
+        game:GetService("RunService").RenderStepped:Connect(function()
+                    if mouse.Target.Parent:FindFirstChild("Humanoid") and mouse.Target.Parent.Name ~= player.Name then
+                        mouse1press() wait() mouse1release()
+                    end
+        end)
+end)
+
+AIMSection:NewButton("Silent Aim", ":/", function()
+    local notifSound = Instance.new("Sound",workspace)
+    notifSound.PlaybackSpeed = 1.5
+    notifSound.Volume = 0.15
+    notifSound.SoundId = "rbxassetid://170765130"
+    notifSound.PlayOnRemove = true
+    notifSound:Destroy()
+        
+	
+	local players = game:GetService("Players")
+	local plr = players.LocalPlayer
+	local mouse = plr:GetMouse()
+	local camera = game.Workspace.CurrentCamera
+	local teamcheck = true
+	
+local function ClosestPlayerToMouse()
+    local target = nil
+    local dist = math.huge
+for i,v in pairs(players:GetPlayers()) do
+    if v.Name ~= plr.Name then
+        if v.Character and v.Character:FindFirstChild("Humanoid") and v.Character.Humanoid.Health ~= 0 and v.Character:FindFirstChild("HumanoidRootPart") and teamcheck and v.TeamColor ~= plr.TeamColor then
+            local screenpoint = camera:WorldToScreenPoint(v.Character.HumanoidRootPart.Position)
+					local check = (Vector2.new(mouse.X,mouse.Y)-Vector2.new(screenpoint.X,screenpoint.Y)).magnitude
+
+            if check < dist then
+                target  = v
+                dist = check
+            end
+        end
+    end
+end
+
+return target 
+end
+	
+	local mt = getrawmetatable(game)
+	local namecall = mt.__namecall
+	setreadonly(mt,false)
+
+	mt.__namecall = function(self,...)
+		local args = {...}
+		local method = getnamecallmethod()
+
+		if tostring(self) == "HitPart" and method == "FireServer" then
+			args[1] = ClosestPlayerToMouse().Character.Head
+			args[2] = ClosestPlayerToMouse().Character.Head.Position
+			return self.FireServer(self, unpack(args))
+		end
+		return namecall(self,...)
+	end
+end)
