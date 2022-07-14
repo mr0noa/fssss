@@ -434,7 +434,7 @@ ESPSection:NewButton("ESP Box", ":/", function()
     notifSound.PlayOnRemove = true
     notifSound:Destroy()
         loadstring(game:HttpGet("https://raw.githubusercontent.com/mr0noa/epefsl/main/fesfs"))()
-    end)
+end)
 
 
 --LOCAL AIM
