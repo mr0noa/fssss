@@ -167,6 +167,15 @@ notifSound:Destroy()
     loadstring(game:HttpGet("https://raw.githubusercontent.com/mr0noa/admin/main/adminper"))()
 end)
 
+MISCSection:NewToggle("Day/Night", "change day to night and night to day", function(state)
+    if state then
+        loadstring(game:HttpGet("https://cdn.wearedevs.net/scripts/Night%20Time%20Toggle.txt"))()
+    else
+        loadstring(game:HttpGet("https://cdn.wearedevs.net/scripts/Night%20Time%20Toggle.txt"))()
+    end
+end)
+
+
 MISCSection:NewButton("Chat Spoofer", "payam ferestadan ba nam digaran", function()
 local notifSound = Instance.new("Sound",workspace)
 notifSound.PlaybackSpeed = 1.5
