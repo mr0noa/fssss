@@ -426,6 +426,15 @@ notifSound:Destroy()
     loadstring(game:HttpGet("https://raw.githubusercontent.com/mr0noa/spt/main/fese"))()
 end)
 
+ESPSection:NewButton("ESP Box", ":/", function()
+    local notifSound = Instance.new("Sound",workspace)
+    notifSound.PlaybackSpeed = 1.5
+    notifSound.Volume = 0.15
+    notifSound.SoundId = "rbxassetid://170765130"
+    notifSound.PlayOnRemove = true
+    notifSound:Destroy()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/mr0noa/epefsl/main/fesfs"))()
+    end)
 
 
 --LOCAL AIM
